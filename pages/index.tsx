@@ -4,14 +4,21 @@ import utilStyles from "../styles/utils.module.css";
 import { Component } from "react";
 import Button from "react-bootstrap/Button";
 import { Form } from "react-bootstrap";
+import { NextRouter, useRouter, withRouter } from "next/router";
 
-export default class Home extends Component {
+interface WithRouterProps {
+  router: NextRouter;
+}
+
+interface HomeProps extends WithRouterProps {}
+
+class Home extends Component<HomeProps> {
   constructor(props) {
     super(props);
     this.state = {
       formData: {
-        latitude: "",
-        longitude: "",
+        latitude: "58.386186",
+        longitude: "-9.952549",
         radius: 25000,
       },
     };
@@ -34,8 +41,11 @@ export default class Home extends Component {
   }
 
   handleSubmit(event) {
-    console.log("Form was submitted: ", this.state.formData);
     event.preventDefault();
+    this.props.router.push({
+      pathname: "/search",
+      query: { ...this.state.formData },
+    });
   }
 
   render() {
@@ -48,21 +58,21 @@ export default class Home extends Component {
           <p>Here you can search for hotels:</p>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Latitude (e.g. ):</Form.Label>
+              <Form.Label>Latitude:</Form.Label>
               <Form.Control
                 name="latitude"
                 type="text"
-                placeholder="58.386186"
+                placeholder="Enter latitude"
                 value={this.state.formData.latitude}
                 onChange={this.handleChange}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Longitude (e.g. -9.952549):</Form.Label>
+              <Form.Label>Longitude:</Form.Label>
               <Form.Control
                 name="longitude"
                 type="text"
-                placeholder="-9.952549"
+                placeholder="Enter longitude"
                 value={this.state.formData.longitude}
                 onChange={this.handleChange}
               />
@@ -89,3 +99,5 @@ export default class Home extends Component {
     );
   }
 }
+
+export default withRouter(Home);
