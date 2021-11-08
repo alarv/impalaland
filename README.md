@@ -1,2 +1,1 @@
-# impalaland
-A simple full-stack app that utilises the Impala API
+This is a starter template for [Learn Next.js](https://nextjs.org/learn).
